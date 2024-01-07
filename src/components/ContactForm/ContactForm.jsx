@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
+import { addContact } from '../../redux/operations';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectContacts } from '../../redux/selectors';
-import { addContact } from '../../redux/contactsSlice';
-
+import { selectContactsItems } from '../../redux/selectors';
 
 export default function ContactForm() {
-  const contacts = useSelector(selectContacts);
+  const contacts = useSelector(selectContactsItems);
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');

@@ -1,65 +1,69 @@
 import React, { useState } from 'react';
-import { deleteContact, editContact } from '../../redux/contactsSlice';
 import { useDispatch } from 'react-redux';
+import { deleteContact, editContact } from '../../redux/operations';
 
 export const ContactListItem = ({ contact }) => {
   const dispatch = useDispatch();
   const [isEditMode, setIsEditMode] = useState(false);
   const [name, setName] = useState(contact.name);
-  const [number, setNumber] = useState(contact.number);
+  const [phone, setPhone] = useState(contact.phone);
 
   const handleChange = e => {
     switch (e.target.name) {
       case 'name':
         setName(e.target.value);
         break;
-      case 'number':
-        setNumber(e.target.value);
+      case 'phone':
+        setPhone(e.target.value);
         break;
       default:
         break;
     }
-  }; 
+  };
 
   const handleEditMode = () => {
-
     setIsEditMode(prevState => !prevState);
 
-
     if (isEditMode) {
-        const editedContact = {
-            name: name.trim(),
-            number: number.trim(),
-            id: contact.id,
-        }
-        dispatch(editContact(editedContact))
+      const editedContact = {
+        name: name.trim(),
+        phone: phone.trim(),
+        id: contact.id,
+      };
+      dispatch(editContact(editedContact));
     }
+  };
 
-
-
-
-  }
+  const handleDeleteButton = id => {
+    dispatch(deleteContact(id));
+  };
 
   return (
     <li>
       {isEditMode ? (
         <div>
-          <input type="text" name="name" value={name} onChange={handleChange}/>
-          <input type="text" name="number" value={number} onChange={handleChange} />
+          <input type="text" name="name" value={name} onChange={handleChange} />
+          <input
+            type="text"
+            name="phone"
+            value={phone}
+            onChange={handleChange}
+          />
         </div>
       ) : (
-        <span>{`${contact.name}: ${contact.number}`}</span>
+        <span>{`${contact.name}: ${contact.phone}`}</span>
       )}
-
-      <button type="button" onClick={handleEditMode}>
-        {isEditMode ? 'Save' : 'Edit'}
-      </button>
-      <button
-        type="button"
-        onClick={() => dispatch(deleteContact(contact.id))}
-      >
-        Delete
-      </button>
+      <div>
+        <button type="button" onClick={handleEditMode}>
+          {isEditMode ? 'Save' : 'Edit'}
+        </button>
+        <button
+          type="button"
+          onClick={() => handleDeleteButton(contact.id)}
+        >
+          Delete
+        </button>
+      </div>
     </li>
   );
 };
