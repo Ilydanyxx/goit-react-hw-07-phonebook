@@ -9,15 +9,15 @@ export default function ContactForm() {
   const dispatch = useDispatch();
 
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
   const handleChange = e => {
     switch (e.target.name) {
       case 'name':
         setName(e.target.value);
         break;
-      case 'number':
-        setNumber(e.target.value);
+      case 'phone':
+        setPhone(e.target.value);
         break;
       default:
         break;
@@ -36,12 +36,12 @@ export default function ContactForm() {
     }
     const newContact = {
       name: name.trim(),
-      number: number.trim(),
+      phone: phone.trim(),
       id: nanoid(),
     };
 
     setName('');
-    setNumber('');
+    setPhone('');
 
     dispatch(addContact(newContact));
   };
@@ -61,15 +61,15 @@ export default function ContactForm() {
           required
         />
       </label>
-      <label htmlFor="number">
+      <label htmlFor="phone">
         {' '}
-        Number
+        Phone
         <input
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          value={number}
+          value={phone}
           onChange={handleChange}
           required
         />
